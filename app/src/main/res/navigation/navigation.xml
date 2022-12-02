@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainActivity">
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.thindie.presentation.MainActivity"
+        android:label="MainActivity" />
+    <fragment
+        android:id="@+id/fragmentCoinPriceList2"
+        android:name="com.example.thindie.presentation.FragmentCoinPriceList"
+        android:label="fragment_coin_price_list"
+        tools:layout="@layout/fragment_coin_price_list" >
+        <action
+            android:id="@+id/action_fragmentCoinPriceList2_to_fragmentCoinDetail"
+            app:destination="@id/fragmentCoinDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCoinDetail"
+        android:name="com.example.thindie.presentation.FragmentCoinDetail"
+        android:label="fragment_coin_detail"
+        tools:layout="@layout/fragment_coin_detail" >
+        <action
+            android:id="@+id/action_fragmentCoinDetail_to_fragmentCoinPriceList2"
+            app:popUpTo="@id/fragmentCoinPriceList2" />
+    </fragment>
+</navigation>
