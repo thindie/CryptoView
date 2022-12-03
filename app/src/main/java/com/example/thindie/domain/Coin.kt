@@ -15,6 +15,6 @@ data class Coin(
 
 ) : Parcelable {
     companion object {
-        private const val WILL_BE_SET_LATER = " "
+        private const val WILL_BE_SET_LATER = " YOU ADS HERE LATER "
     }
 }

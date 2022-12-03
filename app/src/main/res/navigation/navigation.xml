@@ -3,11 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/mainActivity">
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.thindie.presentation.MainActivity"
-        android:label="MainActivity" />
+    app:startDestination="@id/fragmentCoinPriceList2">
     <fragment
         android:id="@+id/fragmentCoinPriceList2"
         android:name="com.example.thindie.presentation.FragmentCoinPriceList"
