@@ -1,39 +1,74 @@
 package com.example.thindie.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.thindie.R
-
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.thindie.databinding.FragmentCoinPriceListBinding
+import com.example.thindie.domain.Coin
 
 
 class FragmentCoinPriceList : Fragment() {
-    // TODO: Rename and change types of parameter
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val viewModel: CoinPriceListViewModel by lazy {
+        ViewModelProvider(this)[CoinPriceListViewModel::class.java]
+            .apply {
+                getCoinList()
+            }
+    }
 
+    private lateinit var coin: Coin
+    private var _binding: FragmentCoinPriceListBinding? = null
+    private val binding: FragmentCoinPriceListBinding
+        get() = _binding ?: throw RuntimeException("FragmentCoinPriceList Binding is null")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        waitingForCoinToShow()
+
+    }
+
+    private fun waitingForCoinToShow() {
+        viewModel.coin.observe(viewLifecycleOwner) {
+            coin = it
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val adapter = CoinListRVAdapter(viewModel)
+        val recyclerView = binding.rvCoinPriceList
+        recyclerView.adapter = adapter
+        viewModel.coinList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _binding = FragmentCoinPriceListBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
-        return inflater.inflate(R.layout.fragment_coin_price_list, container, false)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {
-        private const val ARG_PARAM1 =""
-        private const val ARG_PARAM2 =""
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentCoinPriceList().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

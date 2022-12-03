@@ -10,7 +10,9 @@ import com.example.thindie.domain.Coin
 
 class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel) :
     ListAdapter<Coin, CoinInfoViewHolder>(CoinCallBack()) {
-    private lateinit var binding: ItemCoinInfoBinding
+    private  var _binding: ItemCoinInfoBinding? = null
+    private val binding :ItemCoinInfoBinding
+    get() = _binding ?: throw RuntimeException("CoinListAdapter binding is null")
 
     class CoinCallBack : DiffUtil.ItemCallback<Coin>() {
         override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
@@ -30,6 +32,7 @@ class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel) :
             parent,
             false
         )
+        _binding = binding
         return CoinInfoViewHolder(binding)
     }
 
