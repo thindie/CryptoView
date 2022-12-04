@@ -1,37 +1,82 @@
 package com.example.thindie.presentation
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.thindie.R
-
+import com.example.thindie.databinding.FragmentCoinDetailBinding
+import com.example.thindie.domain.Coin
 
 
 class FragmentCoinDetail : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var _binding: FragmentCoinDetailBinding? = null
+    private val binding: FragmentCoinDetailBinding
+        get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding Binding is null")
+    private lateinit var coin: Coin
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        showCoinStats()
+        setOnBackPress()
     }
+
+    private fun showCoinStats() {
+        with(binding) {
+            tvSlash.text = " / "
+
+            tvPrice.text = coin.price
+            tvSlash.text = coin.slash
+            tvLastUpdate.text = coin.lastUpdate
+            tvLastMarket.text = coin.lastMarket
+            tvFromSymbol.text = coin.fromSymbol
+            tvLastMarketLabel.text = resources.getText(R.string.last_market_label)
+            tvLastUpdateLabel.text = resources.getText(R.string.last_updated_label)
+            tvMaxPrice.text = coin.maxPrice
+            tvMaxPriceLabel.text = resources.getText(R.string.max_price_label)
+            tvMinPrice.text = coin.minPrice
+            tvMinPriceLabel.text = resources.getText(R.string.min_price_label)
+            tvToSymbol.text = coin.toSymbol
+            ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val args = navArgs<FragmentCoinPriceListArgs>()
+        coin = args.value.coin
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        return inflater.inflate(R.layout.fragment_coin_detail, container, false)
+        _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
+        return binding.root
+
     }
 
-    companion object {
-        private const val ARG_PARAM1 =""
-        private const val ARG_PARAM2 =""
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FragmentCoinDetail().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun setOnBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(
+                        FragmentCoinDetailDirections.actionFragmentCoinDetailToFragmentCoinPriceList2(
+                            coin
+                        )
+                    )
                 }
             }
+        )
     }
 }
