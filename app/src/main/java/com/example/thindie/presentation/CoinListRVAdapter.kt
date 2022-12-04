@@ -1,5 +1,6 @@
 package com.example.thindie.presentation
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +9,9 @@ import com.example.thindie.R
 import com.example.thindie.databinding.ItemCoinInfoBinding
 import com.example.thindie.domain.Coin
 
-class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel) :
+class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel,
+    private val resources: Resources
+) :
     ListAdapter<Coin, CoinInfoViewHolder>(CoinCallBack()) {
     private  var _binding: ItemCoinInfoBinding? = null
     private val binding :ItemCoinInfoBinding
@@ -39,14 +42,13 @@ class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel) :
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = getItem(position)
         with(binding){
-            tvLastUpdate.text = coin.lastUpdateTime
-            tvSymbols.text = coin.name
-            tvPrice.text  = coin.rate
+            tvLastUpdate.text = resources.getText(R.string.last_update_template)
+            tvSymbols.text = resources.getText(R.string.symbols_template)
+            tvPrice.text  = resources.getText(R.string.price_label)
             ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
         }
         holder.itemView.setOnClickListener{
             viewModel.getCoin(coin.id)
         }
-
     }
 }

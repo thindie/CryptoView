@@ -11,7 +11,12 @@
         tools:layout="@layout/fragment_coin_price_list" >
         <action
             android:id="@+id/action_fragmentCoinPriceList2_to_fragmentCoinDetail"
-            app:destination="@id/fragmentCoinDetail" />
+            app:destination="@id/fragmentCoinDetail"
+            app:popUpTo="@id/fragmentCoinDetail"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="Coin"
+            app:argType="com.example.thindie.domain.Coin" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCoinDetail"
@@ -20,6 +25,9 @@
         tools:layout="@layout/fragment_coin_detail" >
         <action
             android:id="@+id/action_fragmentCoinDetail_to_fragmentCoinPriceList2"
-            app:popUpTo="@id/fragmentCoinPriceList2" />
+            app:destination="@id/fragmentCoinPriceList2" />
+        <argument
+            android:name="Coin"
+            app:argType="com.example.thindie.domain.Coin" />
     </fragment>
 </navigation>
