@@ -35,6 +35,7 @@ class FragmentCoinPriceList : Fragment() {
     private fun waitingForCoinToShow() {
         viewModel.coin.observe(viewLifecycleOwner) {
             coin = it
+
             findNavController().navigate(
                 FragmentCoinPriceListDirections.actionFragmentCoinPriceList2ToFragmentCoinDetail(
                     coin

@@ -26,24 +26,25 @@ class FragmentCoinDetail : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         showCoinStats()
         setOnBackPress()
+
     }
 
     private fun showCoinStats() {
         with(binding) {
             tvSlash.text = " / "
 
-            tvPrice.text = coin.price
+            /*tvPrice.text = coin.price
             tvSlash.text = coin.slash
             tvLastUpdate.text = coin.lastUpdate
             tvLastMarket.text = coin.lastMarket
-            tvFromSymbol.text = coin.fromSymbol
+            tvFromSymbol.text = coin.fromSymbol*/
             tvLastMarketLabel.text = resources.getText(R.string.last_market_label)
             tvLastUpdateLabel.text = resources.getText(R.string.last_updated_label)
-            tvMaxPrice.text = coin.maxPrice
+            //tvMaxPrice.text = coin.maxPrice
             tvMaxPriceLabel.text = resources.getText(R.string.max_price_label)
-            tvMinPrice.text = coin.minPrice
+           // tvMinPrice.text = coin.minPrice
             tvMinPriceLabel.text = resources.getText(R.string.min_price_label)
-            tvToSymbol.text = coin.toSymbol
+          //  tvToSymbol.text = coin.toSymbol
             ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
         }
     }
@@ -53,6 +54,7 @@ class FragmentCoinDetail : Fragment() {
         val args = navArgs<FragmentCoinPriceListArgs>()
         coin = args.value.coin
     }
+
 
 
     override fun onCreateView(
@@ -72,7 +74,7 @@ class FragmentCoinDetail : Fragment() {
                 override fun handleOnBackPressed() {
                     findNavController().navigate(
                         FragmentCoinDetailDirections.actionFragmentCoinDetailToFragmentCoinPriceList2(
-                            coin
+
                         )
                     )
                 }
