@@ -24,10 +24,6 @@ class FragmentCoinPriceList : Fragment() {
     private val binding: FragmentCoinPriceListBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinPriceList Binding is null")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,14 +35,18 @@ class FragmentCoinPriceList : Fragment() {
     private fun waitingForCoinToShow() {
         viewModel.coin.observe(viewLifecycleOwner) {
             coin = it
-            findNavController()
-                .navigate(FragmentCoinPriceListDirections
-                    .actionFragmentCoinPriceList2ToFragmentCoinDetail(coin))
+
+            findNavController().navigate(
+                FragmentCoinPriceListDirections.actionFragmentCoinPriceList2ToFragmentCoinDetail(
+                    coin
+                )
+            )
         }
     }
 
     private fun setupRecyclerView() {
-        val adapter = CoinListRVAdapter(viewModel)
+        val resources = resources
+        val adapter = CoinListRVAdapter(viewModel, resources)
         val recyclerView = binding.rvCoinPriceList
         recyclerView.adapter = adapter
         viewModel.coinList.observe(viewLifecycleOwner) {
@@ -73,6 +73,4 @@ class FragmentCoinPriceList : Fragment() {
         _binding = null
     }
 
-    companion object {
-    }
 }

@@ -26,6 +26,7 @@ class FragmentCoinDetail : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         showCoinStats()
         setOnBackPress()
+
     }
 
     private fun showCoinStats() {
@@ -53,6 +54,7 @@ class FragmentCoinDetail : Fragment() {
         val args = navArgs<FragmentCoinPriceListArgs>()
         coin = args.value.coin
     }
+
 
 
     override fun onCreateView(
