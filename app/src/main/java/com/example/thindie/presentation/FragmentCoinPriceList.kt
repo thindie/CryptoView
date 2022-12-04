@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.thindie.databinding.FragmentCoinPriceListBinding
 import com.example.thindie.domain.Coin
 
@@ -38,6 +39,9 @@ class FragmentCoinPriceList : Fragment() {
     private fun waitingForCoinToShow() {
         viewModel.coin.observe(viewLifecycleOwner) {
             coin = it
+            findNavController()
+                .navigate(FragmentCoinPriceListDirections
+                    .actionFragmentCoinPriceList2ToFragmentCoinDetail(coin))
         }
     }
 

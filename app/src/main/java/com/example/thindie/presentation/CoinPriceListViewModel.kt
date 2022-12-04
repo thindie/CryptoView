@@ -1,5 +1,7 @@
 package com.example.thindie.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +10,8 @@ import com.example.thindie.domain.Coin
 import com.example.thindie.domain.GetCoinUseCase
 import com.example.thindie.domain.GetCoinsListUseCase
 
-class CoinPriceListViewModel : ViewModel() {
-    private val coinRepository = CoinRepositoryImpl
+class CoinPriceListViewModel(application: Application) : AndroidViewModel(application) {
+    private val coinRepository = CoinRepositoryImpl(application)
     private val getCoinUseCase = GetCoinUseCase(coinRepository)
     private val getCoinsListUseCase = GetCoinsListUseCase(coinRepository)
 

@@ -49,4 +49,5 @@ class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel) :
         }
 
     }
+
 }
