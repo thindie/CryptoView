@@ -24,8 +24,6 @@ application: Application
 
     override fun getList(): LiveData<List<Coin>> {
 
-
-
         coinListLiveData.value = coinList.apply {
             add(0,Coin(0))
             add(1,Coin(1))

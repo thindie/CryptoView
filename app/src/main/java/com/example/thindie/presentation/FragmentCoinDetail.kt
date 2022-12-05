@@ -74,7 +74,7 @@ class FragmentCoinDetail : Fragment() {
                 override fun handleOnBackPressed() {
                     findNavController().navigate(
                         FragmentCoinDetailDirections.actionFragmentCoinDetailToFragmentCoinPriceList2(
-
+                            coin
                         )
                     )
                 }
