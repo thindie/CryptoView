@@ -5,7 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Coin(
-    val id: Int,
     var name: String = WILL_BE_SET_LATER,
     var price: String = WILL_BE_SET_LATER,
     val slash: String = SLASH,
