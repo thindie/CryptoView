@@ -3,9 +3,8 @@ package com.example.thindie.data
 import com.example.thindie.domain.Coin
 
 class CoinMapper {
-    fun coinDBModelToCoin(coinDBModel: CoinDBModel) : Coin{
+    fun coinDBModelToCoin(coinDBModel: CoinDBModel): Coin {
         return Coin(
-            name  = coinDBModel.type!!,
             price = coinDBModel.price!!,
             priceLevel = coinDBModel.high24Hour!!,
             maxPrice = coinDBModel.high24Hour,
@@ -20,5 +19,13 @@ class CoinMapper {
             lastUpdateLabel = "",
             image = coinDBModel.imageUrl.toString(),
         )
+    }
+
+    fun dbListMapper(list2: List<CoinDBModel>): List<Coin> {
+        val list1: MutableList<Coin> = mutableListOf()
+        list2.forEach {
+            list1.add(coinDBModelToCoin(it))
+        }
+        return list1
     }
 }
