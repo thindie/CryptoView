@@ -5,8 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Coin(
-    val id: Int,
-    var name: String = WILL_BE_SET_LATER,
+    val id: Int = Companion.id++,
     var price: String = WILL_BE_SET_LATER,
     val slash: String = SLASH,
     var lastUpdate : String = WILL_BE_SET_LATER,
@@ -24,6 +23,7 @@ data class Coin(
 
 ) : Parcelable {
     companion object {
+        private var id = 0
         private const val SLASH = " / "
         private const val WILL_BE_SET_LATER = " YOU ADS HERE LATER "
     }

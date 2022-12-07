@@ -1,6 +1,7 @@
 package com.example.thindie.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.thindie.databinding.FragmentCoinPriceListBinding
 import com.example.thindie.domain.Coin
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 
 class FragmentCoinPriceList : Fragment() {
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private val viewModel: CoinPriceListViewModel by lazy {
         ViewModelProvider(this)[CoinPriceListViewModel::class.java]
             .apply {
@@ -27,8 +31,12 @@ class FragmentCoinPriceList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        waitingForCoinToShow()
+
+            setupRecyclerView()
+            waitingForCoinToShow()
+
+
+
 
     }
 
@@ -46,10 +54,12 @@ class FragmentCoinPriceList : Fragment() {
 
     private fun setupRecyclerView() {
         val resources = resources
+        Log.d("SERVICE_TAG", "ON SETTING RV")
         val adapter = CoinListRVAdapter(viewModel, resources)
         val recyclerView = binding.rvCoinPriceList
         recyclerView.adapter = adapter
         viewModel.coinList.observe(viewLifecycleOwner) {
+
             adapter.submitList(it)
         }
 
