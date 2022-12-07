@@ -42,13 +42,17 @@ class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel,
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = getItem(position)
         with(binding){
-            tvLastUpdate.text = resources.getText(R.string.last_update_template)
-            tvSymbols.text = resources.getText(R.string.symbols_template)
-            tvPrice.text  = resources.getText(R.string.price_label)
+            tvLastUpdate.text = String.format(resources.getText(R.string.last_update_template).toString()
+                ,coin.lastUpdate)
+            tvSymbols.text = String.format(resources.getText(R.string.symbols_template).toString(),
+                coin.fromSymbol,coin.toSymbol)
+            tvPrice.text  = String.format(resources.getText(R.string.price_label).toString(),
+                coin.price)
+
             ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
         }
         holder.itemView.setOnClickListener{
-            viewModel.getCoin(coin.id)
+            viewModel.getCoin(position)
         }
     }
 
