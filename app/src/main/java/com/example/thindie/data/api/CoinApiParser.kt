@@ -12,7 +12,7 @@ class CoinApiParser(coinApiService: CoinApiService) {
 
     suspend fun parse(): List<CoinDBModel> {
         getCoinPriceRawData()
-        Log.d("SERVICE_TAG", coinDbModelList.size.toString())
+
         return  coinDbModelList.toList()
     }
 
@@ -27,7 +27,7 @@ class CoinApiParser(coinApiService: CoinApiService) {
                 it!!.name
                 val raw = retrofit.getFullPriceList(fSyms = it.name!!).body()!!
                 synchronized(Any()){
-                    Log.d("SERVICE_TAG", (++count).toString())
+
                 }
                 getPriceListFromRawData(raw)
 
@@ -44,17 +44,22 @@ class CoinApiParser(coinApiService: CoinApiService) {
             val currencyJson = jsonObject.getAsJsonObject(coinKey)
             val currencyKeySet = currencyJson.keySet()
             for (currencyKey in currencyKeySet) {
+                var key = currencyKey
+                if(key.equals("imageUrl")){
+                    key = key.plus(RetrofitApiFactory.BASE_IMAGE_URL)
+                }
                 val priceInfo = Gson().fromJson(
-                    currencyJson.getAsJsonObject(currencyKey),
+                    currencyJson.getAsJsonObject(key),
                     CoinDBModel::class.java
                 )
                 synchronized(Any()){
+
                     coinDbModelList.add(priceInfo)
                 }
 
             }
         }
-        Log.d("SERVICE_TAG", (coinDbModelList).toString())
+
     }
 
 

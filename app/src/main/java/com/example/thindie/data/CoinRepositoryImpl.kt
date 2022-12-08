@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.thindie.data.api.CoinApiParser
-import com.example.thindie.data.api.CoinPriceInfoRawData
 import com.example.thindie.data.api.RetrofitApiFactory
 import com.example.thindie.domain.Coin
 import com.example.thindie.domain.CoinRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.*
 
 class CoinRepositoryImpl(
@@ -21,7 +19,7 @@ class CoinRepositoryImpl(
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val coinListLiveData = MutableLiveData<List<Coin>>()
     private val coinList: MutableList<Coin> = mutableListOf()
-    private var coinDbModelList : MutableList<CoinDBModel> = mutableListOf()
+    private var coinDbModelList: MutableList<CoinDBModel> = mutableListOf()
 
 
     override fun getCoin(id: Int): Coin {
@@ -30,25 +28,20 @@ class CoinRepositoryImpl(
 
 
     override fun getList(): LiveData<List<Coin>> {
-         observeList()
+
+        val parser = CoinApiParser(retrofit)
+        val mapper = CoinMapper()
+        val listDBModel = runBlocking {
+            parser.parse()
+        }
+        coinDbModelList.addAll(listDBModel)
+        runBlocking {
+            val listCoinDbModel = mapper.dbListMapper(coinDbModelList)
+            coinList.addAll(listCoinDbModel)
+        }
+        coinListLiveData.value = (coinList)
         return coinListLiveData
     }
-
-   private fun observeList(){
-    val parser = CoinApiParser(retrofit)
-    coroutineScope.launch {
-        coinDbModelList.addAll(parser.parse())
-    }
-
-        coroutineScope.launch {
-
-            Log.d("SERVICE_TAG", "SECOND_SCOPE")
-            val mapper = CoinMapper()
-            coinList.addAll(mapper.dbListMapper(coinDbModelList))
-            coinListLiveData.postValue(coinList)
-        }
-
-}
 
 }
 

@@ -1,6 +1,7 @@
 package com.example.thindie.presentation
 
 import android.content.res.Resources
+import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,14 +9,19 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.thindie.R
 import com.example.thindie.databinding.ItemCoinInfoBinding
 import com.example.thindie.domain.Coin
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
-class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel,
+class CoinListRVAdapter(
+    private val viewModel: CoinPriceListViewModel,
     private val resources: Resources
 ) :
     ListAdapter<Coin, CoinInfoViewHolder>(CoinCallBack()) {
-    private  var _binding: ItemCoinInfoBinding? = null
-    private val binding :ItemCoinInfoBinding
-    get() = _binding ?: throw RuntimeException("CoinListAdapter binding is null")
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private var _binding: ItemCoinInfoBinding? = null
+    private val binding: ItemCoinInfoBinding
+        get() = _binding ?: throw RuntimeException("CoinListAdapter binding is null")
 
     class CoinCallBack : DiffUtil.ItemCallback<Coin>() {
         override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
@@ -49,7 +55,9 @@ class CoinListRVAdapter(private val viewModel: CoinPriceListViewModel,
             tvPrice.text  = String.format(resources.getText(R.string.price_label).toString(),
                 coin.price)
 
-            ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
+            Picasso.get()
+                .load(coin.imageUrl)
+                .into(ivLogoCoin)
         }
         holder.itemView.setOnClickListener{
             viewModel.getCoin(position)

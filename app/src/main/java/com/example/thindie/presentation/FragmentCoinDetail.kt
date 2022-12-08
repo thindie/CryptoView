@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.thindie.R
 import com.example.thindie.databinding.FragmentCoinDetailBinding
 import com.example.thindie.domain.Coin
+import com.squareup.picasso.Picasso
 
 
 class FragmentCoinDetail : Fragment() {
@@ -33,19 +34,21 @@ class FragmentCoinDetail : Fragment() {
         with(binding) {
             tvSlash.text = " / "
 
-            /*tvPrice.text = coin.price
-            tvSlash.text = coin.slash
+            tvPrice.text = coin.price
+
             tvLastUpdate.text = coin.lastUpdate
             tvLastMarket.text = coin.lastMarket
-            tvFromSymbol.text = coin.fromSymbol*/
+            tvFromSymbol.text = coin.fromSymbol
             tvLastMarketLabel.text = resources.getText(R.string.last_market_label)
             tvLastUpdateLabel.text = resources.getText(R.string.last_updated_label)
-            //tvMaxPrice.text = coin.maxPrice
+            tvMaxPrice.text = coin.highDay
             tvMaxPriceLabel.text = resources.getText(R.string.max_price_label)
-           // tvMinPrice.text = coin.minPrice
+            tvMinPrice.text = coin.lowDay
             tvMinPriceLabel.text = resources.getText(R.string.min_price_label)
-          //  tvToSymbol.text = coin.toSymbol
-            ivLogoCoin.setImageResource(R.drawable.ic_launcher_foreground)
+            tvToSymbol.text = coin.toSymbol
+            Picasso.get().load(
+                coin.imageUrl
+            ).into(ivLogoCoin)
         }
     }
 
@@ -54,7 +57,6 @@ class FragmentCoinDetail : Fragment() {
         val args = navArgs<FragmentCoinPriceListArgs>()
         coin = args.value.coin
     }
-
 
 
     override fun onCreateView(
