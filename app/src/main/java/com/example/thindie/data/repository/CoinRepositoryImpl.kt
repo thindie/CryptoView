@@ -21,7 +21,7 @@ class CoinRepositoryImpl(
 
     override fun getCoin(fromSymbol: String): LiveData<Coin> {
         return Transformations.map(dbCoin.getPriceInfoAboutCoin(fromSymbol)) {
-            mapper.coinDBModeltoCoin(it)
+            mapper.coinDBModelToCoin(it)
         }
     }
 
@@ -29,20 +29,23 @@ class CoinRepositoryImpl(
     override fun getList(): LiveData<List<Coin>> {
         return Transformations.map(dbCoin.getPriceList()) {
             it.map {
-                mapper.coinDBModeltoCoin(it)
+                mapper.coinDBModelToCoin(it)
             }
         }
     }
 
     override suspend fun loadData() {
         while (true) {
-            val nameContainers = mapper.getNameCoinNameContainersDTO(retrofit)
-            val coinJsonObj = mapper.fromCoinNameContainersToJson(nameContainers, retrofit)
-            val listCoinDto = mapper.fromJsonToListCoinDTO(coinJsonObj)
-            val dbModelList = listCoinDto.map {
-                mapper.coinDTOToCoinDBModel(it)
+            try {
+                val nameContainers = mapper.getNameCoinNameContainersDTO(retrofit)
+                val coinJsonObj = mapper.fromCoinNameContainersToJson(nameContainers, retrofit)
+                val listCoinDto = mapper.fromJsonToListCoinDTO(coinJsonObj)
+                val dbModelList = listCoinDto.map {
+                    mapper.coinDTOToCoinDBModel(it)
+                }
+                dbCoin.insertPriceList(dbModelList)
+            } catch (e: Exception) {
             }
-            dbCoin.insertPriceList(dbModelList)
             delay(10000)
         }
 

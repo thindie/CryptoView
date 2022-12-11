@@ -1,7 +1,7 @@
 package com.example.thindie.presentation
 
 import android.content.res.Resources
-import android.icu.number.NumberFormatter.with
+import com.example.thindie.data.api.RetrofitApiFactory.BASE_IMAGE_URL
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -54,13 +54,13 @@ class CoinListRVAdapter(
                 coin.fromSymbol,coin.toSymbol)
             tvPrice.text  = String.format(resources.getText(R.string.price_label).toString(),
                 coin.price)
-
+            val URL = coin.imageUrl
             Picasso.get()
-                .load(coin.imageUrl)
+                .load(URL)
                 .into(ivLogoCoin)
         }
         holder.itemView.setOnClickListener{
-            viewModel.getCoin(coin.fromSymbol)
+
         }
     }
 
