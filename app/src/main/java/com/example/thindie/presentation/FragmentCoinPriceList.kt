@@ -10,16 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.thindie.databinding.FragmentCoinPriceListBinding
 import com.example.thindie.domain.Coin
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 
 class FragmentCoinPriceList : Fragment() {
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
     private val viewModel: CoinPriceListViewModel by lazy {
         ViewModelProvider(this)[CoinPriceListViewModel::class.java]
             .apply {
-                getCoinList()
+                 getCoinList()
             }
     }
 
@@ -32,10 +30,8 @@ class FragmentCoinPriceList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            setupRecyclerView()
-            waitingForCoinToShow()
-
-
+        setupRecyclerView()
+        waitingForCoinToShow()
 
 
     }

@@ -1,17 +1,15 @@
 package com.example.thindie.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.thindie.data.CoinRepositoryImpl
+import com.example.thindie.data.repository.CoinRepositoryImpl
 import com.example.thindie.domain.Coin
 import com.example.thindie.domain.GetCoinUseCase
 import com.example.thindie.domain.GetCoinsListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CoinPriceListViewModel(application: Application) : AndroidViewModel(application) {
@@ -29,13 +27,18 @@ class CoinPriceListViewModel(application: Application) : AndroidViewModel(applic
         get() = _coin
 
 
+
     fun getCoinList() {
+        coroutineScope.launch {
+            coinRepository.loadData()
+        }
+
         _coinList.value = getCoinsListUseCase.getList().value
 
     }
 
-    fun getCoin(id: Int) {
-        _coin.value = getCoinUseCase.getCoin(id)
+    fun getCoin(fromSymbol: String) {
+        _coin.value = getCoinUseCase.getCoin(fromSymbol).value
     }
 
 }

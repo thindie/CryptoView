@@ -25,7 +25,7 @@ class CoinListRVAdapter(
 
     class CoinCallBack : DiffUtil.ItemCallback<Coin>() {
         override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.fromSymbol == newItem.fromSymbol
         }
 
         override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
@@ -60,7 +60,7 @@ class CoinListRVAdapter(
                 .into(ivLogoCoin)
         }
         holder.itemView.setOnClickListener{
-            viewModel.getCoin(position)
+            viewModel.getCoin(coin.fromSymbol)
         }
     }
 

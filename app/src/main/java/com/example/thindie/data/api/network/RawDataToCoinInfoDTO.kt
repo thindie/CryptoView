@@ -1,10 +1,10 @@
-package com.example.thindie.data.api
+package com.example.thindie.data.api.network
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class RawDataToCoinInfo (
+data class RawDataToCoinInfoDTO (
     @SerializedName("CoinInfo")
     @Expose
-    val coinInfoToName: CoinInfoToName? = null
+    val coinNameContainerDTO: CoinNameContainerDTO? = null
 )

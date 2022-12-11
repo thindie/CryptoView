@@ -33,9 +33,7 @@ class FragmentCoinDetail : Fragment() {
     private fun showCoinStats() {
         with(binding) {
             tvSlash.text = " / "
-
             tvPrice.text = coin.price
-
             tvLastUpdate.text = coin.lastUpdate
             tvLastMarket.text = coin.lastMarket
             tvFromSymbol.text = coin.fromSymbol

@@ -1,11 +1,12 @@
-package com.example.thindie.domain
+package com.example.thindie.data.database
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Parcelize
-data class Coin(
+@Entity(tableName = "coins_table")
+data class CoinDbModel(
     val market: String?,
+    @PrimaryKey
     val fromSymbol: String,
     val toSymbol: String?,
     val price: String?,
@@ -14,6 +15,4 @@ data class Coin(
     val lowDay: String?,
     val lastMarket: String?,
     val imageUrl: String?,
-) : Parcelable {
-
-}
+)

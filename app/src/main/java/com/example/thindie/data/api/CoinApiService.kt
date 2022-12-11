@@ -1,7 +1,7 @@
 package com.example.thindie.data.api
 
-import retrofit2.Call
-import retrofit2.Response
+import com.example.thindie.data.api.network.CoinInfoListOfDataDTO
+import com.example.thindie.data.api.network.CoinJsonObjectDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,14 +12,14 @@ interface CoinApiService {
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
-    ): Response<CoinInfoListOfData>
+    ): CoinInfoListOfDataDTO
 
     @GET("pricemultifull")
    suspend fun getFullPriceList(
         @Query(QUERY_PARAM_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAM_FROM_SYMBOLS) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY
-    ): Response<CoinPriceInfoRawData>
+    ): CoinJsonObjectDTO
 
     companion object {
         private const val QUERY_PARAM_API_KEY = "api_key"
