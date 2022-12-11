@@ -17,7 +17,7 @@ class FragmentCoinPriceList : Fragment() {
     private val viewModel: CoinPriceListViewModel by lazy {
         ViewModelProvider(this)[CoinPriceListViewModel::class.java]
             .apply {
-                 getCoinList()
+                 loadData()
             }
     }
 
@@ -29,7 +29,7 @@ class FragmentCoinPriceList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.getCoinList()
         setupRecyclerView()
         waitingForCoinToShow()
 

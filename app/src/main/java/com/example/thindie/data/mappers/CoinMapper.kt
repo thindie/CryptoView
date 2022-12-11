@@ -48,19 +48,19 @@ class CoinMapper {
             )
     }
 
-    fun coinDBModeltoCoin(сoinDbModel: CoinDbModel): Coin {
+    fun coinDBModeltoCoin(coinDbModel: CoinDbModel): Coin {
 
         return Coin(
-            market = сoinDbModel.market.toString(),
-            price = сoinDbModel.price.toString(),
-            lastUpdate = сoinDbModel.lastUpdate.toString(),
-            highDay = сoinDbModel.highDay.toString(),
-            lowDay = сoinDbModel.lowDay.toString(),
-            lastMarket = сoinDbModel.lastMarket.toString(),
+            market = coinDbModel.market.toString(),
+            price = coinDbModel.price.toString(),
+            lastUpdate = coinDbModel.lastUpdate.toString(),
+            highDay = coinDbModel.highDay.toString(),
+            lowDay = coinDbModel.lowDay.toString(),
+            lastMarket = coinDbModel.lastMarket.toString(),
             imageUrl = RetrofitApiFactory.BASE_IMAGE_URL +
-                    сoinDbModel.imageUrl.toString(),
-            fromSymbol = сoinDbModel.fromSymbol.toString(),
-            toSymbol = сoinDbModel.toSymbol.toString(),
+                    coinDbModel.imageUrl.toString(),
+            fromSymbol = coinDbModel.fromSymbol.toString(),
+            toSymbol = coinDbModel.toSymbol.toString(),
 
             )
     }

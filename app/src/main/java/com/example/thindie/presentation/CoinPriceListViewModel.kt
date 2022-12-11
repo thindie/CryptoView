@@ -8,15 +8,17 @@ import com.example.thindie.data.repository.CoinRepositoryImpl
 import com.example.thindie.domain.Coin
 import com.example.thindie.domain.GetCoinUseCase
 import com.example.thindie.domain.GetCoinsListUseCase
+import com.example.thindie.domain.LoadDataUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CoinPriceListViewModel(application: Application) : AndroidViewModel(application) {
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
     private val coinRepository = CoinRepositoryImpl(application)
     private val getCoinUseCase = GetCoinUseCase(coinRepository)
     private val getCoinsListUseCase = GetCoinsListUseCase(coinRepository)
+    private val loadData = LoadDataUseCase(coinRepository)
 
     private val _coinList = MutableLiveData<List<Coin>>()
     val coinList: LiveData<List<Coin>>
@@ -27,18 +29,31 @@ class CoinPriceListViewModel(application: Application) : AndroidViewModel(applic
         get() = _coin
 
 
+    fun loadData() {
+        coroutineScope.launch {
+            loadData.loadData()
+        }
+    }
 
     fun getCoinList() {
+        val list = getCoinsListUseCase.getList().value!!
         coroutineScope.launch {
-            coinRepository.loadData()
+
+            _coinList.postValue(
+                list
+            )
+
         }
 
-        _coinList.value = getCoinsListUseCase.getList().value
 
     }
 
     fun getCoin(fromSymbol: String) {
-        _coin.value = getCoinUseCase.getCoin(fromSymbol).value
+        coroutineScope.launch {
+            getCoinUseCase.getCoin(fromSymbol)
+            _coin.value = getCoinUseCase.getCoin(fromSymbol).value
+        }
+        //
     }
 
 }
