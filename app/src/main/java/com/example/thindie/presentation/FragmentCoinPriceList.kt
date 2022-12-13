@@ -29,21 +29,15 @@ class FragmentCoinPriceList : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
+    }
 
+    private fun showCoin(coin: Coin) {
+
+             findNavController().navigate(FragmentCoinPriceListDirections
+                 .actionFragmentCoinPriceList2ToFragmentCoinDetail(coin))
 
     }
 
-    fun waitingForCoinToShow(fSyms: String ) {
-        viewModel.detailInfo(fSyms).observe(viewLifecycleOwner) {
-            coin = it
-
-            findNavController().navigate(
-                FragmentCoinPriceListDirections.actionFragmentCoinPriceList2ToFragmentCoinDetail(
-                    coin
-                )
-            )
-        }
-    }
 
     private fun setupRecyclerView() {
         val resources = resources
@@ -53,6 +47,11 @@ class FragmentCoinPriceList : Fragment() {
         recyclerView.adapter = adapter
         viewModel.coinInfoList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+        adapter.onClick = {
+            viewModel.detailInfo(it.fromSymbol).observe(viewLifecycleOwner){
+                showCoin(it)
+            }
         }
 
     }

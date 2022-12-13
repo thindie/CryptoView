@@ -22,16 +22,13 @@ class CoinPriceListViewModel(application: Application) : AndroidViewModel(applic
     private val getCoinsListUseCase = GetCoinsListUseCase(coinRepository)
     private val loadData = LoadDataUseCase(coinRepository)
 
-
     val coinInfoList = getCoinsListUseCase.getList()
-    fun detailInfo(fromSymbol: String) = getCoinUseCase.getCoin(fromSymbol)
 
+    fun detailInfo(fromSymbol: String) = getCoinUseCase.getCoin(fromSymbol)
 
     init {
         viewModelScope.launch {
-
-                loadData
-
+                loadData.loadData()
         }
     }
 

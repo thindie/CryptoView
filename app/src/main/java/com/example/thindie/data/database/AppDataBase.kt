@@ -21,7 +21,7 @@ abstract class AppDataBase : RoomDatabase() {
             }
             val db = Room.databaseBuilder(
                 application,
-                AppDataBase::class.java,
+               AppDataBase::class.java,
                 DB_NAME
             )
 
