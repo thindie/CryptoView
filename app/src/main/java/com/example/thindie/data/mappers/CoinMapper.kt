@@ -20,7 +20,7 @@ class CoinMapper {
         return CoinDbModel(
             market = coinDTO.market.toString(),
             price = coinDTO.price.toString(),
-            lastUpdate = coinDTO.lastUpdate.toString(),
+            lastUpdate = coinDTO.lastUpdate,
             highDay = coinDTO.highDay.toString(),
             lowDay = coinDTO.lowDay.toString(),
             lastMarket = coinDTO.lastMarket.toString(),

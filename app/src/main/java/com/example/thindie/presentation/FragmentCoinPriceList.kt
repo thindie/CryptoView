@@ -43,7 +43,9 @@ class FragmentCoinPriceList : Fragment() {
         val resources = resources
         Log.d("SERVICE_TAG", "ON SETTING RV")
         val adapter = CoinListRVAdapter(viewModel, resources)
-        val recyclerView = binding.rvCoinPriceList
+        val recyclerView = binding.rvCoinPriceList.apply {
+            itemAnimator = null
+        }
         recyclerView.adapter = adapter
         viewModel.coinInfoList.observe(viewLifecycleOwner) {
             adapter.submitList(it)

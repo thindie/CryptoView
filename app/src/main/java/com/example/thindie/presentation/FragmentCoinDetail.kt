@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.thindie.R
+import com.example.thindie.data.api.RetrofitApiFactory
 import com.example.thindie.databinding.FragmentCoinDetailBinding
 import com.example.thindie.domain.Coin
 import com.squareup.picasso.Picasso
@@ -44,8 +45,9 @@ class FragmentCoinDetail : Fragment() {
             tvMinPrice.text = coin.lowDay
             tvMinPriceLabel.text = resources.getText(R.string.min_price_label)
             tvToSymbol.text = coin.toSymbol
+            val URL = RetrofitApiFactory.BASE_IMAGE_URL.plus(coin.imageUrl)
             Picasso.get().load(
-                coin.imageUrl
+               URL
             ).into(ivLogoCoin)
         }
     }

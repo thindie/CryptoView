@@ -29,7 +29,7 @@ class CoinListRVAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
-            return false
+            return oldItem == newItem
         }
 
     }
