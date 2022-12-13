@@ -8,13 +8,13 @@ import androidx.room.Query
 
 @Dao
 interface CoinDao {
-    @Query("SELECT * FROM coins_table ORDER BY lastUpdate DESC")
+    @Query("SELECT * FROM coins_table ORDER BY price DESC")
     fun getPriceList(): LiveData<List<CoinDbModel>>
 
     @Query("SELECT * FROM coins_table WHERE fromSymbol == :fSym LIMIT 1")
     fun getPriceInfoAboutCoin(fSym: String): LiveData<CoinDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPriceList(priceList: List<CoinDbModel>)
+   suspend fun insertPriceList(priceList: List<CoinDbModel>)
 
 }

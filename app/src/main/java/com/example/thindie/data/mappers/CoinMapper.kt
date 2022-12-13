@@ -14,22 +14,6 @@ import java.util.*
 
 class CoinMapper {
 
-     fun coinDTOToCoin(coinDTO: CoinDTO): Coin {
-
-        return Coin(
-            market = coinDTO.market.toString(),
-            price = coinDTO.price.toString(),
-            lastUpdate = coinDTO.lastUpdate.toString(),
-            highDay = coinDTO.highDay.toString(),
-            lowDay = coinDTO.lowDay.toString(),
-            lastMarket = coinDTO.lastMarket.toString(),
-            imageUrl = RetrofitApiFactory.BASE_IMAGE_URL +
-                    coinDTO.imageUrl.toString(),
-            fromSymbol = coinDTO.fromSymbol.toString(),
-            toSymbol = coinDTO.toSymbol.toString(),
-
-            )
-    }
 
      fun coinDTOToCoinDBModel(coinDTO: CoinDTO): CoinDbModel {
 
@@ -40,7 +24,7 @@ class CoinMapper {
             highDay = coinDTO.highDay.toString(),
             lowDay = coinDTO.lowDay.toString(),
             lastMarket = coinDTO.lastMarket.toString(),
-            imageUrl = RetrofitApiFactory.BASE_IMAGE_URL +
+            imageUrl =
                     coinDTO.imageUrl.toString(),
             fromSymbol = coinDTO.fromSymbol.toString(),
             toSymbol = coinDTO.toSymbol.toString(),
@@ -48,19 +32,20 @@ class CoinMapper {
             )
     }
 
-    fun coinDBModeltoCoin(сoinDbModel: CoinDbModel): Coin {
+    fun coinDBModelToCoin(coinDbModel: CoinDbModel): Coin {
+        val time = convertTimestampToTime(coinDbModel.lastUpdate?.toLong())
 
         return Coin(
-            market = сoinDbModel.market.toString(),
-            price = сoinDbModel.price.toString(),
-            lastUpdate = сoinDbModel.lastUpdate.toString(),
-            highDay = сoinDbModel.highDay.toString(),
-            lowDay = сoinDbModel.lowDay.toString(),
-            lastMarket = сoinDbModel.lastMarket.toString(),
-            imageUrl = RetrofitApiFactory.BASE_IMAGE_URL +
-                    сoinDbModel.imageUrl.toString(),
-            fromSymbol = сoinDbModel.fromSymbol.toString(),
-            toSymbol = сoinDbModel.toSymbol.toString(),
+            market = coinDbModel.market.toString(),
+            price = coinDbModel.price.toString(),
+            lastUpdate = time.toString(),
+            highDay = coinDbModel.highDay.toString(),
+            lowDay = coinDbModel.lowDay.toString(),
+            lastMarket = coinDbModel.lastMarket.toString(),
+            imageUrl =
+                    coinDbModel.imageUrl.toString(),
+            fromSymbol = coinDbModel.fromSymbol.toString(),
+            toSymbol = coinDbModel.toSymbol.toString(),
 
             )
     }

@@ -16,9 +16,7 @@ class FragmentCoinPriceList : Fragment() {
 
     private val viewModel: CoinPriceListViewModel by lazy {
         ViewModelProvider(this)[CoinPriceListViewModel::class.java]
-            .apply {
-                 getCoinList()
-            }
+
     }
 
     private lateinit var coin: Coin
@@ -29,24 +27,17 @@ class FragmentCoinPriceList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRecyclerView()
-        waitingForCoinToShow()
-
 
     }
 
-    private fun waitingForCoinToShow() {
-        viewModel.coin.observe(viewLifecycleOwner) {
-            coin = it
+    private fun showCoin(coin: Coin) {
 
-            findNavController().navigate(
-                FragmentCoinPriceListDirections.actionFragmentCoinPriceList2ToFragmentCoinDetail(
-                    coin
-                )
-            )
-        }
+             findNavController().navigate(FragmentCoinPriceListDirections
+                 .actionFragmentCoinPriceList2ToFragmentCoinDetail(coin))
+
     }
+
 
     private fun setupRecyclerView() {
         val resources = resources
@@ -54,9 +45,13 @@ class FragmentCoinPriceList : Fragment() {
         val adapter = CoinListRVAdapter(viewModel, resources)
         val recyclerView = binding.rvCoinPriceList
         recyclerView.adapter = adapter
-        viewModel.coinList.observe(viewLifecycleOwner) {
-
+        viewModel.coinInfoList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+        adapter.onClick = {
+            viewModel.detailInfo(it.fromSymbol).observe(viewLifecycleOwner){
+                showCoin(it)
+            }
         }
 
     }

@@ -1,24 +1,24 @@
 package com.example.thindie.presentation
 
 import android.content.res.Resources
-import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.thindie.R
+import com.example.thindie.data.api.RetrofitApiFactory.BASE_IMAGE_URL
 import com.example.thindie.databinding.ItemCoinInfoBinding
 import com.example.thindie.domain.Coin
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 
 class CoinListRVAdapter(
     private val viewModel: CoinPriceListViewModel,
     private val resources: Resources
 ) :
     ListAdapter<Coin, CoinInfoViewHolder>(CoinCallBack()) {
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+
+    var onClick : ((Coin) -> Unit)? = null
+
     private var _binding: ItemCoinInfoBinding? = null
     private val binding: ItemCoinInfoBinding
         get() = _binding ?: throw RuntimeException("CoinListAdapter binding is null")
@@ -47,21 +47,27 @@ class CoinListRVAdapter(
 
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = getItem(position)
-        with(binding){
-            tvLastUpdate.text = String.format(resources.getText(R.string.last_update_template).toString()
-                ,coin.lastUpdate)
-            tvSymbols.text = String.format(resources.getText(R.string.symbols_template).toString(),
-                coin.fromSymbol,coin.toSymbol)
-            tvPrice.text  = String.format(resources.getText(R.string.price_label).toString(),
-                coin.price)
-
+        with(binding) {
+            tvLastUpdate.text = String.format(
+                resources.getText(R.string.last_update_template).toString(), coin.lastUpdate
+            )
+            tvSymbols.text = String.format(
+                resources.getText(R.string.symbols_template).toString(),
+                coin.fromSymbol, coin.toSymbol
+            )
+            tvPrice.text = String.format(
+                resources.getText(R.string.price_label).toString() +
+                coin.price
+            )
+            val URL = BASE_IMAGE_URL.plus(coin.imageUrl)
             Picasso.get()
-                .load(coin.imageUrl)
+                .load(URL)
                 .into(ivLogoCoin)
         }
-        holder.itemView.setOnClickListener{
-            viewModel.getCoin(coin.fromSymbol)
+        holder.itemView.setOnClickListener {
+                onClick?.invoke(coin)
         }
+
     }
 
 }
